@@ -99,11 +99,6 @@ Source IP  : 192.168.15.138 (Attacker)
 Target IP  : 192.168.15.139 (Target)
 ```
 
-**Screenshot tambahan dari proses deteksi:**
-
-![Screenshot 1](./images/Screenshot%202026-03-05%20085813.png)
-![Screenshot 2](./images/Screenshot%202026-03-05%20090306.png)
-
 ## 📊 Mapping MITRE ATT&CK
 
 | Taktik | Teknik | ID |
