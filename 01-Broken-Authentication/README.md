@@ -127,8 +127,3 @@ Proyek ini berhasil mendemonstrasikan:
 
 ---
 *Dokumentasi ini disusun sebagai bagian dari portofolio keamanan siber. Fokus: SIEM Engineering, Threat Detection, dan OWASP Top 10.*
-
----
-
-Nah ini udah dari **Penjelasan Rule** (tabel) sampai akhir. Langsung bisa dipasang! 👍
-
