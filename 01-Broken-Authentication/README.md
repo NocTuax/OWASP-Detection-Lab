@@ -1,4 +1,4 @@
-# 🛡️ OWASP Detection Lab - Brute Force (Hydra)
+# 🛡️ A01: Broken Authentication - Brute Force (Hydra)
 
 Dokumentasi ini menunjukkan keberhasilan implementasi **Wazuh SIEM** untuk mendeteksi serangan **Brute Force** secara real-time pada lingkungan lab cybersecurity.
 
@@ -10,8 +10,8 @@ Proyek ini berfokus pada pemantauan log akses Apache untuk mengidentifikasi akti
 * **SIEM Manager**: Wazuh Manager (Ubuntu 22.04)
 * **Target/Agent**: Ubuntu Server 22.04 dengan Apache2 & DVWA (IP: 192.168.15.139)
 
-## 🛡️ Konfigurasi Deteksi
-Saya mengimplementasikan *Custom Rules* pada Wazuh Manager (`local_rules.xml`) menggunakan **Regex Case-Insensitive** untuk menangkap User-Agent unik yang dikirimkan oleh Hydra.
+## 🛡️ Konfigurasi Deteksi (Wazuh Rule)
+Saya membuat *custom rule* pada file `/var/ossec/etc/rules/local_rules.xml` di Wazuh Manager. Rule ini menggunakan **Regex Case-Insensitive** untuk menangkap identitas Hydra pada *User-Agent* log Apache.
 
 ### Custom Rule (ID: 100002):
 ```xml
@@ -23,4 +23,3 @@ Saya mengimplementasikan *Custom Rules* pada Wazuh Manager (`local_rules.xml`) m
     <id>T1110</id>
   </mitre>
 </rule>
-
