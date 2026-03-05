@@ -32,92 +32,108 @@ Saya membuat *custom rule* pada file `/var/ossec/etc/rules/local_rules.xml` di W
   </mitre>
 </rule>
 ```
-🔍 Penjelasan Rule:
-Komponen	Nilai	Keterangan
-ID	100002	ID unik untuk rule kustom
-Level	10	Tingkat keparahan sangat tinggi (alert kritis)
-if_sid	31100,31101,31108	Hanya dievaluasi untuk event dari group web server
-regex	(?i)hydra	Mencari string "hydra" (case-insensitive) di User-Agent
-mitre	T1110	Mapping ke teknik Brute Force di MITRE ATT&CK
-🚀 Skenario Pengujian
-Langkah 1: Menjalankan Serangan (Dari Attacker)
-Di mesin Kali Linux (192.168.15.138), jalankan perintah Hydra:
+Nih langsung **copy-paste** dari **Penjelasan Rule** (tanpa file XML) sampai akhir:
 
-bash
+---
+
+### 🔍 Penjelasan Rule:
+
+| Komponen | Nilai | Keterangan |
+|----------|-------|------------|
+| **ID** | `100002` | ID unik untuk rule kustom |
+| **Level** | `10` | Tingkat keparahan sangat tinggi (alert kritis) |
+| **if_sid** | `31100,31101,31108` | Hanya dievaluasi untuk event dari group web server |
+| **regex** | `(?i)hydra` | Mencari string "hydra" (case-insensitive) di User-Agent |
+| **mitre** | `T1110` | Mapping ke teknik Brute Force di MITRE ATT&CK |
+
+## 🚀 Skenario Pengujian
+
+### Langkah 1: Menjalankan Serangan (Dari Attacker)
+
+Di mesin Kali Linux (`192.168.15.138`), jalankan perintah Hydra:
+
+```bash
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.15.139 http-post-form "/DVWA/login.php:username=^USER^&password=^PASS^&Login=Login:Login failed"
-Penjelasan perintah:
+```
 
--l admin → Username target (admin)
+**Penjelasan perintah:**
+- `-l admin` → Username target (admin)
+- `-P /usr/share/wordlists/rockyou.txt` → Wordlist password
+- `http-post-form` → Metode serangan (HTTP POST form)
+- `Login failed` → String indikator login gagal
 
--P /usr/share/wordlists/rockyou.txt → Wordlist password
+**Screenshot eksekusi Hydra di Kali Linux:**
 
-http-post-form → Metode serangan (HTTP POST form)
+![Hydra Attack Terminal](./images/hydra-attack-terminal.png)
 
-Login failed → String indikator login gagal
+### Langkah 2: Log Akses Apache di Target
 
-Screenshot eksekusi Hydra di Kali Linux:
+Setiap percobaan login dari Hydra tercatat di file `/var/log/apache2/access.log` pada mesin target (Ubuntu Server). Perhatikan **User-Agent** yang menunjukkan identitas Hydra.
 
-https://./images/hydra-attack-terminal.png
+**Screenshot log akses Apache yang menunjukkan aktivitas Hydra:**
 
-Langkah 2: Log Akses Apache di Target
-Setiap percobaan login dari Hydra tercatat di file /var/log/apache2/access.log pada mesin target (Ubuntu Server). Perhatikan User-Agent yang menunjukkan identitas Hydra.
+![Apache Access Log Hydra](./images/apache-access-log-hydra.png)
 
-Screenshot log akses Apache yang menunjukkan aktivitas Hydra:
+### Langkah 3: Proses Deteksi oleh Wazuh
 
-https://./images/apache-access-log-hydra.png
+1. **Logging**: Setiap percobaan login dari Hydra tercatat di log akses Apache
+2. **Forwarding**: Wazuh Agent membaca log dan mengirim ke Wazuh Manager secara real-time
+3. **Analysis**: Wazuh Manager menerima log, mem-parsing, dan mencocokkannya dengan rule yang ada
+4. **Alerting**: Karena ada kecocokan dengan **Rule ID 100002** (adanya string "hydra" di User-Agent), maka alert level 10 langsung dihasilkan
 
-Langkah 3: Proses Deteksi oleh Wazuh
-Logging: Setiap percobaan login dari Hydra tercatat di log akses Apache
+### Langkah 4: Hasil Deteksi di Wazuh Dashboard
 
-Forwarding: Wazuh Agent membaca log dan mengirim ke Wazuh Manager secara real-time
+Alert langsung muncul di **Wazuh Dashboard** dengan level kritis (10).
 
-Analysis: Wazuh Manager menerima log, mem-parsing, dan mencocokkannya dengan rule yang ada
+**Screenshot alert di Wazuh Dashboard:**
 
-Alerting: Karena ada kecocokan dengan Rule ID 100002 (adanya string "hydra" di User-Agent), maka alert level 10 langsung dihasilkan
-
-Langkah 4: Hasil Deteksi di Wazuh Dashboard
-Alert langsung muncul di Wazuh Dashboard dengan level kritis (10).
-
-Screenshot alert di Wazuh Dashboard:
-
-https://./images/wazuh-dashboard-alert.png
+![Wazuh Dashboard Alert](./images/wazuh-dashboard-alert.png)
 
 Detail alert yang muncul:
 
-text
+```
 Rule ID    : 100002
 Level      : 10
 Description: 🚨 [A01: Broken Authentication] Serangan Brute Force Web (Hydra) Terdeteksi!
 Source IP  : 192.168.15.138 (Attacker)
 Target IP  : 192.168.15.139 (Target)
-Screenshot tambahan dari proses deteksi:
+```
 
-https://./images/Screenshot%25202026-03-05%2520085813.png
-https://./images/Screenshot%25202026-03-05%2520090306.png
+**Screenshot tambahan dari proses deteksi:**
 
-📊 Mapping MITRE ATT&CK
-Taktik	Teknik	ID
-Credential Access	Brute Force	T1110
-Dengan mapping ini, alert tidak hanya memberi tahu apa yang terjadi, tetapi juga di mana posisinya dalam siklus hidup serangan menurut standar industri.
+![Screenshot 1](./images/Screenshot%202026-03-05%20085813.png)
+![Screenshot 2](./images/Screenshot%202026-03-05%20090306.png)
 
-✅ Kesimpulan
+## 📊 Mapping MITRE ATT&CK
+
+| Taktik | Teknik | ID |
+|--------|--------|-----|
+| Credential Access | Brute Force | [T1110](https://attack.mitre.org/techniques/T1110/) |
+
+Dengan mapping ini, alert tidak hanya memberi tahu *apa* yang terjadi, tetapi juga *di mana* posisinya dalam siklus hidup serangan menurut standar industri.
+
+## ✅ Kesimpulan
+
 Proyek ini berhasil mendemonstrasikan:
 
-Deteksi Dini: Wazuh mampu mendeteksi serangan Brute Force secara real-time, memungkinkan respons cepat sebelum akun berhasil dikompromikan
+1. **Deteksi Dini**: Wazuh mampu mendeteksi serangan Brute Force secara real-time, memungkinkan respons cepat sebelum akun berhasil dikompromikan
+2. **Kustomisasi Rule**: Kemampuan membuat rule kustom sangat penting untuk mendeteksi alat serangan spesifik (Hydra) yang mungkin tidak terdeteksi oleh rule bawaan
+3. **Konteks Ancaman**: Mapping ke MITRE ATT&CK (T1110) memberikan nilai tambah dengan menempatkan serangan dalam kerangka yang diakui secara global
+4. **Penerapan OWASP Top 10**: Berhasil memvalidasi bahwa serangan *Broken Authentication* dapat dimonitor dan dideteksi secara efektif
 
-Kustomisasi Rule: Kemampuan membuat rule kustom sangat penting untuk mendeteksi alat serangan spesifik (Hydra) yang mungkin tidak terdeteksi oleh rule bawaan
+## 📁 File Pendukung
 
-Konteks Ancaman: Mapping ke MITRE ATT&CK (T1110) memberikan nilai tambah dengan menempatkan serangan dalam kerangka yang diakui secara global
+- **Custom Rule**: [`../rules/local_rules.xml`](../rules/local_rules.xml) - File XML berisi rule deteksi Hydra
+- **Screenshots**: [`./images/`](./images/) - Koleksi screenshot proses serangan dan deteksi
 
-Penerapan OWASP Top 10: Berhasil memvalidasi bahwa serangan Broken Authentication dapat dimonitor dan dideteksi secara efektif
+## 🖇️ Navigasi
 
-📁 File Pendukung
-Custom Rule: ../rules/local_rules.xml - File XML berisi rule deteksi Hydra
+- [**Kembali ke README Utama**](../README.md) - Lihat semua skenario OWASP Top 10
 
-Screenshots: ./images/ - Koleksi screenshot proses serangan dan deteksi
+---
+*Dokumentasi ini disusun sebagai bagian dari portofolio keamanan siber. Fokus: SIEM Engineering, Threat Detection, dan OWASP Top 10.*
 
-🖇️ Navigasi
-Kembali ke README Utama - Lihat semua skenario OWASP Top 10
+---
 
-Dokumentasi ini disusun sebagai bagian dari portofolio keamanan siber. Fokus: SIEM Engineering, Threat Detection, dan OWASP Top 10.
+Nah ini udah dari **Penjelasan Rule** (tabel) sampai akhir. Langsung bisa dipasang! 👍
 
