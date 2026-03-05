@@ -11,26 +11,27 @@ Repositori ini merupakan **koleksi portofolio lab keamanan siber** yang mendokum
 Setiap skenario serangan dikonfigurasi dengan *custom rules* di Wazuh, diuji dalam lingkungan lab terkendali, dan di-mapping ke kerangka **MITRE ATT&CK** untuk memberikan konteks ancaman yang lebih mendalam.
 
 ## 📂 Struktur Repositori
-OWASP-Detection-Lab/
-├── 01-Broken-Authentication/ # Skenario A01: Broken Authentication
-│ └── README.md # Dokumentasi deteksi Brute Force dengan Hydra
-├── 02-Cryptographic-Failures/ # (Coming Soon)
-├── 03-Injection/ # (Coming Soon)
-├── images/ # Screenshot dan gambar pendukung
-├── rules/ # Kumpulan custom rules Wazuh (XML)
-└── README.md # Dokumentasi utama (file ini)
 
-text
+```
+OWASP-Detection-Lab/
+├── 01-Broken-Authentication/   # Skenario A01: Broken Authentication
+│   └── README.md                # Dokumentasi deteksi Brute Force dengan Hydra
+├── 02-Cryptographic-Failures/  # (Coming Soon)
+├── 03-Injection/               # (Coming Soon)
+├── images/                      # Screenshot dan gambar pendukung
+├── rules/                       # Kumpulan custom rules Wazuh (XML)
+└── README.md                    # Dokumentasi utama (file ini)
+```
 
 ## 📋 Daftar Skenario Deteksi (OWASP Top 10)
 
 | Kode | Kategori OWASP | Vektor Serangan | Status | Dokumentasi |
 |:----:|----------------|-----------------|--------|-------------|
 | **A01** | Broken Authentication | Brute Force Attack dengan Hydra | ✅ Selesai | [01-Broken-Authentication/](./01-Broken-Authentication/) |
-| A02 | Cryptographic Failures | *(Coming Soon)* | ⏳ Rencana | - |
-| A03 | Injection | *(Coming Soon)* | ⏳ Rencana | - |
-| A04 | Insecure Design | *(Coming Soon)* | ⏳ Rencana | - |
-| A05 | Security Misconfiguration | *(Coming Soon)* | ⏳ Rencana | - |
+| **A02** | Cryptographic Failures | *(Coming Soon)* | ⏳ Rencana | - |
+| **A03** | Injection | *(Coming Soon)* | ⏳ Rencana | - |
+| **A04** | Insecure Design | *(Coming Soon)* | ⏳ Rencana | - |
+| **A05** | Security Misconfiguration | *(Coming Soon)* | ⏳ Rencana | - |
 
 ## 🧪 Arsitektur Lab Umum
 
@@ -38,7 +39,7 @@ Lingkungan lab yang digunakan relatif konsisten untuk setiap skenario:
 
 | Peran | Sistem Operasi | Tools/Aplikasi |
 |-------|----------------|----------------|
-| **Attacker** | Kali Linux | Hydra, SQLmap, dsb (sesuai skenario) |
+| **Attacker** | Kali Linux | Hydra, SQLmap, dll (sesuai skenario) |
 | **Target (Agent)** | Ubuntu Server 22.04 | Apache2, DVWA, Wazuh Agent |
 | **SIEM Manager** | Ubuntu 22.04 | Wazuh Manager |
 
@@ -52,14 +53,14 @@ Semua *custom rules* yang dibuat untuk proyek ini dapat ditemukan di folder [`/r
 
 ## 🎯 Tujuan Proyek
 
-1. **Membangun Portofolio**: Menunjukkan kemampuan praktis dalam SIEM Engineering dan Threat Detection
-2. **Validasi OWASP Top 10**: Mendemonstrasikan deteksi untuk setiap kategori risiko
-3. **Penerapan MITRE ATT&CK**: Memberikan konteks ancaman standar industri
-4. **Dokumentasi Terstruktur**: Menyediakan panduan yang jelas dan replicable
+1. **Membangun Portofolio** - Menunjukkan kemampuan praktis dalam SIEM Engineering dan Threat Detection
+2. **Validasi OWASP Top 10** - Mendemonstrasikan deteksi untuk setiap kategori risiko
+3. **Penerapan MITRE ATT&CK** - Memberikan konteks ancaman standar industri
+4. **Dokumentasi Terstruktur** - Menyediakan panduan yang jelas dan *replicable*
 
 ## 🚀 Mulai Jelajahi
 
-- **[Skenario 1: A01 - Broken Authentication (Brute Force Hydra)](./01-Broken-Authentication/)** → Lihat detil implementasi pertama
+- **[Skenario 1: A01 - Broken Authentication (Brute Force Hydra)](./01-Broken-Authentication/)** → Lihat detail implementasi pertama
 
 ## 🙋‍♂️ Tentang Pembuat
 
