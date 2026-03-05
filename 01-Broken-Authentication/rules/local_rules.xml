@@ -1,0 +1,5 @@
+<rule id="100002" level="10">
+  <if_sid>31100,31101,31108</if_sid>
+  <regex type="pcre2">(?i)hydra</regex>
+  <description>Waspada! Serangan Brute Force Web (Hydra) Terdeteksi!</description>
+</rule>
