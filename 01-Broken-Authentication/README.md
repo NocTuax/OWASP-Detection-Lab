@@ -1,4 +1,6 @@
-# 🛡️ A01: Broken Authentication - Deteksi Serangan Brute Force dengan Hydra
+# 🛡️ Project #1: A07:2025 - Authentication Failures (Brute Force Hydra)
+
+> **🔍 Catatan:** Project ini mendeteksi serangan **A07: Authentication Failures** dari OWASP Top 10 2025. Penomoran folder `01` adalah urutan project, bukan kode OWASP.
 
 [![Wazuh](https://img.shields.io/badge/SIEM-Wazuh-005571?style=flat&logo=wazuh&logoColor=white)](https://wazuh.com/)
 [![OWASP Top 10](https://img.shields.io/badge/OWASP%20Top%2010-Broken%20Authentication-red)](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
