@@ -1,4 +1,6 @@
-# 🛡️ A03: Injection - SQL Injection Detection with SQLMap & Wazuh SIEM
+# 🛡️ Project #2: A05:2025 - Injection (SQL Injection SQLMap)
+
+> **🔍 Catatan:** Project ini mendeteksi serangan **A05: Injection** dari OWASP Top 10 2025. Penomoran folder `02` adalah urutan project, bukan kode OWASP.
 
 [![Wazuh](https://img.shields.io/badge/SIEM-Wazuh-005571?style=flat&logo=wazuh&logoColor=white)](https://wazuh.com/)
 [![OWASP Top 10](https://img.shields.io/badge/OWASP%20Top%2010-Injection%20(A03)-red)](https://owasp.org/Top10/A03_2021-Injection/)
