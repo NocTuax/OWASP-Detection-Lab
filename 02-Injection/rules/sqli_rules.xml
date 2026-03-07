@@ -1,1 +1,10 @@
-
+<group name="web,appsec,sql_injection,">
+  <rule id="100003" level="10">
+    <if_sid>31100,31101,31108</if_sid>
+    <regex type="pcre2">(?i)sqlmap</regex>
+    <description>Waspada! Aktivitas SQL Injection (SQLMap) Terdeteksi!</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+</group>
